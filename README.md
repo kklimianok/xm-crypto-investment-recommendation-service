@@ -23,10 +23,11 @@ Each application include application.properties for configuration. It includes J
 
 ## Docker
 For Docker build, do following steps after application build:
-- For Windows docker, override localhost PostgreSQL property with "host.docker.internal" url property value instead of "localhost" in properties and cfg to make possible connect to local PostgresQL.
 - Build application jars with mvn clean package
+- For Windows docker, override localhost PostgreSQL property with "host.docker.internal" url property value instead of "localhost" in properties and cfg to make possible connect to local PostgresQL.
 - Build and run Docker image:
   - cd docker;
-  - run "docker-build.sh";
-  - run "docker-compose up -d";
+  - docker-build.sh;
+  - docker-compose up -d;
+
 Dataloader and API should now run and be available under http://localhost:8080
