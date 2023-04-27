@@ -1,4 +1,4 @@
-FROM maven:3-jdk-11-alpine
+FROM openjdk:11
 
 WORKDIR /usr/src/app
 
