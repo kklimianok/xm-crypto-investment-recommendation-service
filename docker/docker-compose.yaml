@@ -6,12 +6,12 @@ networks:
 
 services:
   dataloader:
-    image: cirs-dataloader:1.0.1
+    image: crypto-investment-recommendation-service:1.0.1-SNAPSHOT
     container_name: cirs_dataloader
     restart: always
     networks: [docker-network]
   api:
-    image: cirs-rest-api:1.0.1
+    image: crypto-investment-recommendation-service:1.0.1-SNAPSHOT
     container_name: cirs_rest_api
     ports:
       - "8080:8080"

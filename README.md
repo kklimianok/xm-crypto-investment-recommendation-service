@@ -19,3 +19,9 @@ Each application include application.properties for configuration. It includes J
 - For Dataloader there is also *csvDirectoryPath* property that specify the CSV files directory path
 - For CryptoInvestmentRecommendation there is also *ipRateLimitMillis* property that specify IP limit for time in milliseconds. If value is not specified, IP Rate limit is disabled
 - src/main/resources/hibernate/hibernate.cfg.xml define Hibernate's configuration
+
+## Docker
+For Docker build, do following steps after application build:
+- cd docker;
+- run "docker-build.sh";
+- run "docker-compose up -d";
