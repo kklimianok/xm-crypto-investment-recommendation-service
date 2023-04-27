@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="cirs-dataloader" annotations="JDK">
+    <test name="cirs-dataloader-unit-tests" verbose="10" annotations="JDK">
+        <packages>
+            <package name="com.xm.services.investment.crypto.rs.dataloader.*">
+                <exclude name="integration"/>
+            </package>
+        </packages>
+    </test>
+    <test name="cirs-dataloader-integration-tests" verbose="10" annotations="JDK" parallel="false" preserve-order="true">
+        <classes>
+            <class name="com.xm.services.investment.crypto.rs.dataloader.service.integration.DataLoaderIntegrationTest"/>
+        </classes>
+    </test>
+</suite>

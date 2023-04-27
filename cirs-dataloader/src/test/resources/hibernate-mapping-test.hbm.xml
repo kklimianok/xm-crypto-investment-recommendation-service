@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "https://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.xm.services.investment.crypto.rs.domain.Crypto" table="crypto">
+        <id name="id" column="id" type="java.lang.Long">
+            <generator class="identity"/>
+        </id>
+        <property name="name" not-null="true">
+            <column name="name" not-null="true"/>
+        </property>
+        <property name="statisticsMonthNumber" not-null="true">
+            <column name="statistics_month" not-null="true"/>
+        </property>
+    </class>
+
+    <class name="com.xm.services.investment.crypto.rs.domain.CryptoPriceRecord" table="crypto_price_record">
+        <id name="id" column="id" type="java.lang.Long">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="crypto" class="com.xm.services.investment.crypto.rs.domain.Crypto" not-null="true">
+            <column name="crypto_id" not-null="true"/>
+        </many-to-one>
+        <property name="timestamp" not-null="true">
+            <column name="timestamp" not-null="true"/>
+        </property>
+        <property name="price" not-null="true">
+            <column name="price" not-null="true"/>
+        </property>
+    </class>
+
+    <class name="com.xm.services.investment.crypto.rs.domain.CryptoPriceStatistics" table="monthly_prices_stats">
+        <id name="id" column="id" type="java.lang.Long">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="crypto" class="com.xm.services.investment.crypto.rs.domain.Crypto" not-null="true">
+            <column name="crypto_id" not-null="true"/>
+        </many-to-one>
+        <property name="statisticsDate" not-null="true">
+            <column name="stats_date" not-null="true"/>
+        </property>
+        <many-to-one name="oldestRecord" class="com.xm.services.investment.crypto.rs.domain.CryptoPriceRecord" not-null="true">
+            <column name="oldest_price_record_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="newestRecord" class="com.xm.services.investment.crypto.rs.domain.CryptoPriceRecord" not-null="true">
+            <column name="newest_price_record_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="minValueRecord" class="com.xm.services.investment.crypto.rs.domain.CryptoPriceRecord"
+                     not-null="true">
+            <column name="min_price_record_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="maxValueRecord" class="com.xm.services.investment.crypto.rs.domain.CryptoPriceRecord"
+                     not-null="true">
+            <column name="max_price_record_id" not-null="true"/>
+        </many-to-one>
+    </class>
+
+    <sql-query name="INSERT_CRYPTO_PRICE_RECORD">
+        <![CDATA[
+        INSERT INTO crypto_price_record (crypto_id, timestamp, price)
+        VALUES(:cryptoId, :timestamp, :price)
+        ]]>
+    </sql-query>
+
+    <sql-query name="INSERT_CRYPTO_PRICE_STATS">
+        <![CDATA[
+        INSERT INTO monthly_prices_stats (crypto_id, stats_date, oldest_price_record_id, newest_price_record_id, min_price_record_id, max_price_record_id)
+        VALUES(:cryptoId, :date, :oldestRecordId, :newestRecordId, :minRecordId, :maxRecordId)
+        ]]>
+    </sql-query>
+
+    <query name="ACTIVE_CRYPTOS">
+        <![CDATA[
+        FROM Crypto
+        WHERE active=true
+        ]]>
+    </query>
+
+    <query name="CRYPTO_PRICES_FOR_RANGE">
+        <![CDATA[
+        FROM CryptoPriceRecord
+        WHERE crypto_id = :cryptoId
+        AND timestamp >= TO_DATE(:startDate, 'YYYY-MM-DD')
+        ]]>
+    </query>
+
+    <query name="CRYPTO_PRICE_STATISTICS">
+        <![CDATA[
+        FROM CryptoPriceStatistics
+        WHERE crypto_id = (SELECT id FROM Crypto WHERE name = :cryptoName)
+        ]]>
+    </query>
+
+    <query name="DATE_STATISTICS">
+        <![CDATA[
+        FROM CryptoPriceStatistics
+        WHERE stats_date = :date
+        ]]>
+    </query>
+
+    <query name="ALL_STATISTICS">
+        <![CDATA[
+        FROM CryptoPriceStatistics
+        ]]>
+    </query>
+</hibernate-mapping>

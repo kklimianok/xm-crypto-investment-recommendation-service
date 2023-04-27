@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="classpath:cirs-dataloader.xml" />
+    <context:property-placeholder location="classpath:application-test.properties"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <constructor-arg name="driver">
+            <bean class="org.h2.Driver"/>
+        </constructor-arg>
+        <constructor-arg  name="url" value="jdbc:h2:mem:cirs_test" />
+        <constructor-arg  name="username" value="test" />
+        <constructor-arg  name="password" value="test" />
+    </bean>
+
+    <bean id="entityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" primary="true">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="mappingResources" value="hibernate-mapping-test.hbm.xml" />
+        <property name="packagesToScan" value="com.xm.services.investment.crypto.rs.domain.*" />
+    </bean>
+
+</beans>

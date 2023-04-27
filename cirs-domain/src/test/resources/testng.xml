@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="cirs-domain" annotations="JDK">
+    <test name="cirs-domain-unit-tests" verbose="10" annotations="JDK">
+        <packages>
+            <package name="com.xm.services.investment.crypto.rs.domain.*"/>
+        </packages>
+    </test>
+</suite>

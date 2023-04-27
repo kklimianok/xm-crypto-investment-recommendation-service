@@ -1,0 +1,19 @@
+version: '3.8'
+
+networks:
+  docker-network:
+    driver: bridge
+
+services:
+  dataloader:
+    image: cirs-dataloader:1.0.1
+    container_name: cirs_dataloader
+    restart: always
+    networks: [docker-network]
+  api:
+    image: cirs-rest-api:1.0.1
+    container_name: cirs_rest_api
+    ports:
+      - "8080:8080"
+    restart: always
+    networks: [docker-network]
