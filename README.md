@@ -19,9 +19,14 @@ Each application include application.properties for configuration. It includes J
 - For Dataloader there is also *csvDirectoryPath* property that specify the CSV files directory path
 - For CryptoInvestmentRecommendation there is also *ipRateLimitMillis* property that specify IP limit for time in milliseconds. If value is not specified, IP Rate limit is disabled
 - src/main/resources/hibernate/hibernate.cfg.xml define Hibernate's configuration
+- API documentation and example run are available under /swagger-ui/index.html (for local run - http://localhost:8080/swagger-ui/index.html)
 
 ## Docker
 For Docker build, do following steps after application build:
-- cd docker;
-- run "docker-build.sh";
-- run "docker-compose up -d";
+- For Windows docker, override localhost PostgreSQL property with "host.docker.internal" url property value instead of "localhost" in properties and cfg to make possible connect to local PostgresQL.
+- Build application jars with mvn clean package
+- Build and run Docker image:
+  - cd docker;
+  - run "docker-build.sh";
+  - run "docker-compose up -d";
+Dataloader and API should now run and be available under http://localhost:8080
